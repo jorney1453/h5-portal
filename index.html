@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>H5 Portal</title>
+<title>H5 PORTAL</title>
 </head>
-<body style="background:black;color:white;text-align:center;margin-top:100px;font-family:Arial;">
-  
-  <h1>🔥 H5 PORTAL AKTİF</h1>
-  <p>İlk internet kapın açıldı</p>
 
-  <button onclick="alert('H5 aktif')" 
-    style="padding:15px 30px;font-size:18px;background:lime;border:none;">
-    H5 Başlat
-  </button>
+<body style="background:black;color:white;text-align:center;font-family:Arial;">
+
+<h1>H5 AKTİF</h1>
+
+<div id="chat" style="width:80%;height:300px;margin:auto;border:1px solid white;overflow:auto;"></div>
+
+<input id="msg" style="width:70%;padding:10px;">
+<button onclick="send()">GÖNDER</button>
+
+<script>
+function send(){
+    let msg = document.getElementById("msg").value;
+
+    let chat = document.getElementById("chat");
+
+    chat.innerHTML += "<p><b>Sen:</b> " + msg + "</p>";
+
+    chat.innerHTML += "<p><b>H5:</b> mesaj alındı...</p>";
+
+    document.getElementById("msg").value="";
+}
+</script>
 
 </body>
 </html>
