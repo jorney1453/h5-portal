@@ -75,5 +75,43 @@ async function send(){
 }
 </script>
 
-</body>
+</body><script>
+const API = "https://h5-backend-production.up.railway.app/chat";
+
+function ekle(yazi) {
+  const chat = document.getElementById("chat");
+  chat.innerHTML += '<div>' + yazi + '</div>';
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function gonder() {
+  const input = document.getElementById("inp");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  ekle("Sen: " + message);
+  input.value = "";
+
+  try {
+    const res = await fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: message })
+    });
+
+    const data = await res.json();
+    ekle("H5: " + (data.reply || data.error || "cevap yok"));
+
+  } catch (err) {
+    ekle("H5: bağlantı hatası");
+  }
+}
+
+document.getElementById("inp").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") gonder();
+});
+</script>
 </html>
