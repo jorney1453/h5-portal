@@ -1,39 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>H5 Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H5 Portal</title>
+
+<style>
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial;
+  text-align:center;
+  padding:30px;
+}
+
+#chat{
+  width:90%;
+  max-width:900px;
+  height:300px;
+  margin:auto;
+  border:1px solid #444;
+  padding:10px;
+  overflow:auto;
+  text-align:left;
+}
+
+input{
+  width:70%;
+  padding:10px;
+  margin-top:10px;
+}
+
+button{
+  padding:10px;
+}
+</style>
 </head>
-<body style="background:black;color:white;font-family:Arial;text-align:center;padding:30px;">
 
-<h1>H5 AKTİF</h1>
+<body>
 
-<div id="chat" style="height:300px;overflow:auto;border:1px solid #444;padding:10px;margin-bottom:10px;"></div>
+<h1>H5 ACTIVE</h1>
 
-<input id="msg" placeholder="Mesaj yaz..." style="width:70%;padding:10px;">
-<button onclick="gonder()">Gönder</button>
+<div id="chat"></div>
+
+<input id="inp" placeholder="Type a message">
+<button onclick="send()">Send</button>
 
 <script>
 const API = "https://h5-backend-production.up.railway.app/chat";
 
-function yaz(text){
-  document.getElementById("chat").innerHTML += "<div>"+text+"</div>";
+function add(text){
+  const chat = document.getElementById("chat");
+  chat.innerHTML += "<div>"+text+"</div>";
+  chat.scrollTop = chat.scrollHeight;
 }
 
-async function gonder(){
-  let m = document.getElementById("msg").value;
-  if(!m) return;
+async function send(){
+  let msg = document.getElementById("inp").value;
+  if(!msg) return;
 
-  yaz("Sen: "+m);
+  add("You: " + msg);
 
   let res = await fetch(API,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:m})
+    body:JSON.stringify({message:msg})
   });
 
   let data = await res.json();
 
-  yaz("H5: "+(data.reply || "cevap yok"));
+  add("H5: " + (data.reply || data.error || "no response"));
+
+  document.getElementById("inp").value="";
 }
 </script>
 
